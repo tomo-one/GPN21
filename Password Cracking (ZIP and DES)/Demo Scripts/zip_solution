@@ -1,0 +1,179 @@
+#!/bin/bash
+
+# zip_solution
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 1:  Benchmarking"
+echo
+echo "## Tool:    fcrackzip"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    fcrackzip -B"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+fcrackzip -B
+echo
+echo "Benchmarking finished - press [SPACE] to continue! "
+echo
+read -n 1 -s
+
+echo
+echo
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 2:  Brute-Force (7 digits)"
+echo
+echo "## Tool:    fcrackzip"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    fcrackzip -b -c 1 -l 7 -u CompanyPasswords.zip"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+echo
+echo "Start password cracking with fcrackzip ..."
+time fcrackzip -b -c 1 -l 7 -u CompanyPasswords.zip
+echo
+echo "Password cracking finished - press [SPACE] to continue! "
+echo
+read -n 1 -s
+
+echo
+echo
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 3:  Alternatively extract Hash and use John the Ripper (JtR)"
+echo
+echo "## Tool:    zip2john"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    zip2john CompanyPasswords.zip > CompanyPasswords.hash 2>/dev/null"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+zip2john CompanyPasswords.zip > CompanyPasswords.hash 2>/dev/null
+echo
+echo "Hash extracted!"
+echo
+echo
+echo "The first and last 100 characters of CompanyPasswords.hash:"
+echo
+echo -n "    "
+head -c 100 CompanyPasswords.hash
+echo
+echo
+echo "    [...]"
+echo
+echo -n "    "
+tail -c 100 CompanyPasswords.hash
+echo
+echo "Amount of characters in CompanyPasswords.hash"
+echo -n "    "
+wc -m CompanyPasswords.hash | cut -d " " -f1
+echo
+read -p "Press [SPACE] to continue! " -n 1 -s
+
+echo
+echo
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 4:  Brute-Force (default settings - no customization)"
+echo
+echo "## Tool:    John the Ripper"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    john CompanyPasswords.hash"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+john CompanyPasswords.hash
+echo
+read -p "Press [SPACE] to continue! " -n 1 -s
+rm ~/.john/john.pot
+
+echo
+echo
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 5: Unzip the archive"
+echo
+echo "## Tool:    unzip"
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    unzip -P '1234567' -o CompanyPasswords.zip"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+unzip -P '1234567' -o CompanyPasswords.zip
+echo
+echo "Extracting password hashes finished"
+echo

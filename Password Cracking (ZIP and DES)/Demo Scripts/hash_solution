@@ -1,0 +1,257 @@
+#!/bin/bash
+
+# hash_solution
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 1:  Identify the hash type"
+echo
+echo "## Tool:    Name That Hash (nth)"
+echo "## Remark:  hash_identifier was last maintained 2018 and only interactive"
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    nth --no-banner --text \`head -1 CompanyPasswords.txt | cut -d ":" -f2\`"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+nth --no-banner --text `head -1 CompanyPasswords.txt | cut -d ":" -f2`
+echo
+echo "Hash identified - press [SPACE] to continue! "
+echo
+read -n 1 -s
+
+echo
+echo
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 2:  Benchmarking"
+echo
+echo "## Tool:    John the Ripper (JtR)"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    john --format=descrypt --test"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+echo
+john --format=descrypt --test
+echo
+echo "Benchmarking finished - press [SPACE] to continue! "
+echo
+read -n 1 -s
+
+echo
+echo
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 3:  Dictonairy-Attack with rockyou wordlist"
+echo
+echo "## Tool:    John the Ripper (JtR)"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    john --format=descrypt --wordlist=./rockyou.txt CompanyPasswords.txt"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+john --format=descrypt --wordlist=./rockyou.txt CompanyPasswords.txt
+echo
+echo "Password cracking finished - press [SPACE] to continue! "
+echo
+read -n 1 -s
+
+echo
+echo
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 4:  Brute-Force with lowernum charset (len=8 and count=36)"
+echo
+echo "## Tool:    John the Ripper (JtR)"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    john --format=descrypt --incremental=LowerNumDES CompanyPasswords.txt"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+john --format=descrypt --incremental=LowerNumDES CompanyPasswords.txt
+echo
+read -p "Press [SPACE] to continue! " -n 1 -s
+
+echo
+echo
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 5:  Creating a customized character set"
+echo
+echo "## Tool:    John the Ripper (JtR)"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    john --make-charset=~/.john/DES-5000.chr CompanyPasswords.txt"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+john --make-charset=~/.john/DES-5000.chr CompanyPasswords.txt
+echo
+echo "Character set created - press [SPACE] to continue! "
+echo
+read -n 1 -s
+
+echo
+echo
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 6:  Brute-Force with customized character set"
+echo
+echo "## Tool:    John the Ripper (JtR)"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    john --format=descrypt --incremental=DES-5000 CompanyPasswords.txt"
+echo
+echo
+
+read -p "Press [SPACE] to start command: " -n 1 -s
+echo
+john --format=descrypt --incremental=DES-5000 CompanyPasswords.txt
+echo
+read -p "Press [SPACE] to continue! " -n 1 -s
+
+echo
+echo
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 7:  Show the result - all cracked password hashes"
+echo
+echo "## Tool:    John the Ripper (JtR)"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    john --show CompanyPasswords.txt | tail -1"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+echo
+john --show CompanyPasswords.txt | tail -1
+echo
+echo
+read -p "Press [SPACE] to continue! " -n 1 -s
+
+
+
+clear
+
+echo
+echo
+echo
+echo
+echo "## Step 8:  Analyze the passwords"
+echo
+echo "## Tool:    John the Ripper (JtR) and pipal"
+echo
+echo
+echo
+echo
+echo "COMMAND:"
+echo "--------"
+echo
+echo "    john --show CompanyPasswords.txt | head -n -2 | cut -d ':' -f 2 > cracked_passwords"
+echo "    pipal cracked_passwords | less"
+echo
+echo
+
+read -p "Press [SPACE] to start command ... " -n 1 -s
+echo
+john --show CompanyPasswords.txt | head -n -2 | cut -d ':' -f 2 > cracked_passwords
+pipal cracked_passwords | less
+echo
+
